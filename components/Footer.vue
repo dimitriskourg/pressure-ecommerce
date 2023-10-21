@@ -1,6 +1,5 @@
-import { Icon } from '#build/components';
 <script setup>
-
+defineEmits(['openSearchBar'])
 </script>
 
 <template>
@@ -22,14 +21,16 @@ import { Icon } from '#build/components';
             SHOP NOW
           </h2>
           <nav class="list-none mb-10">
-            <li>
+            <li class="hover:cursor-pointer" @click="$emit('openSearchBar')">
               <a class="text-gray-600 hover:text-gray-800">Search</a>
             </li>
-            <li>
+            <NuxtLink to="/products">
               <a class="text-gray-600 hover:text-gray-800">All Products</a>
-            </li>
+            </NuxtLink>
             <li>
-              <a class="text-gray-600 hover:text-gray-800">Best Selles</a>
+              <NuxtLink to="/best-sellers" class="text-gray-600 hover:text-gray-800">
+                Best Selles
+              </NuxtLink>
             </li>
           </nav>
         </div>

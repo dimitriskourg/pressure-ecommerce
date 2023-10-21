@@ -5,7 +5,7 @@ const searchedValue = ref('')
 </script>
 
 <template>
-  <div id="MainLayout" class="w-full fixed z-40">
+  <div id="MainLayout" class="w-full z-40">
     <div class="announcementBar w-full bg-black p-3" />
     <div class="w-full flex flex-wrap items-center justify-between mx-auto p-2 bg-white border border-b-stone-950/20">
       <div class="hidden md:flex items-center justify-around ml-3">
@@ -80,7 +80,7 @@ const searchedValue = ref('')
 
     <slot />
 
-    <Footer />
+    <Footer @open-search-bar="isSearchBarHidden = false" />
   </div>
 </template>
 
