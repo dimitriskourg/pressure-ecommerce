@@ -2,6 +2,13 @@
 const isDrawerHidden = ref(true)
 const isSearchBarHidden = ref(true)
 const searchedValue = ref('')
+const isSearching = ref(false)
+const hasCartItems = ref(false)
+
+function clickedDrawer() {
+  isDrawerHidden.value = !isDrawerHidden.value
+  isSearchBarHidden.value = true
+}
 </script>
 
 <template>
@@ -19,23 +26,37 @@ const searchedValue = ref('')
       <NuxtLink to="/" class="min-w-[170px]">
         <img src="/PRESSURE-logo.png" alt="" width="170">
       </NuxtLink>
+
+      <!-- Mobile Header buttons -->
       <div class="items-center flex md:hidden">
-        <Icon name="ion:search" size="24" class="m-2 md:hidden" @click="isSearchBarHidden = !isSearchBarHidden" />
-        <button data-collapse-toggle="navbar-solid-bg" type="button" class="inline-flex items-center p-2 w-10 h-10 justify-center text-sm text-gray-700 rounded-lg md:hidden hover:bg-gray-100 focus:ring-gray-200" aria-controls="navbar-solid-bg" aria-expanded="false">
-          <span class="sr-only">Open main menu</span>
-          <svg class="w-5 h-5" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 17 14" @click="isDrawerHidden = !isDrawerHidden; isSearchBarHidden = true">
-            <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M1 1h15M1 7h15M1 13h15" />
-          </svg>
+        <button
+          class="p-2 hover:bg-gray-200 rounded-lg
+
+"
+        >
+          <Icon name="ion:search" size="28" class="" @click="isSearchBarHidden = !isSearchBarHidden" />
         </button>
+        <button class="p-2 hover:bg-gray-200 rounded-lg" @click="clickedDrawer">
+          <Icon name="iconamoon:menu-burger-horizontal-bold" size="28" />
+        </button>
+        <NuxtLink to="/cart" class="flex items-center p-2 hover:bg-gray-200 rounded-lg relative">
+          <Icon name="ph:bag-bold" size="28" class="" />
+          <div v-if="hasCartItems" class="absolute top-2 right-1 w-3 h-3 rounded-full bg-gray-800" />
+        </NuxtLink>
       </div>
 
-      <div class="hidden md:block mr-3">
-        <NuxtLink to="/auth" class="">
-          <Icon name="ph:user-bold" size="30" class="m-2" />
+      <!-- Desktop Header buttons -->
+      <div class="hidden md:flex items-center ">
+        <NuxtLink to="/auth" class="p-2 hover:bg-gray-200 rounded-lg">
+          <Icon name="ph:user-bold" size="30" class="" />
         </NuxtLink>
-        <Icon name="ion:search" size="30" class="m-2 hover:cursor-pointer" @click="isSearchBarHidden = !isSearchBarHidden" />
-        <NuxtLink to="/cart" class="">
-          <Icon name="ph:bag-bold" size="30" class="m-2" />
+        <button class="p-2 hover:bg-gray-200 rounded-lg">
+          <Icon name="ion:search" size="30" @click="isSearchBarHidden = !isSearchBarHidden" />
+        </button>
+        <NuxtLink to="/cart" class="p-2 hover:bg-gray-200 rounded-lg relative">
+          <Icon name="ph:bag-bold" size="30" class="" />
+          <!-- bubble over cart to show that cart has items -->
+          <div v-if="hasCartItems" class="absolute top-2 right-1 w-3 h-3 rounded-full bg-gray-800" />
         </NuxtLink>
       </div>
     </div>
@@ -67,6 +88,7 @@ const searchedValue = ref('')
             placeholder="SEARCH..."
             class="w-full py-4 pe-10 px-7 outline-none"
           >
+          <Icon v-if="isSearching" name="eos-icons:loading" size="25" class="mr-5 mt-1" />
           <button type="button" class=" absolute inset-y-0 end-0" @click="searchedValue = ''; isSearchBarHidden = !isSearchBarHidden">
             <Icon name="ph:x-bold" size="20" />
           </button>
