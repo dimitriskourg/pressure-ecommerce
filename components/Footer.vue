@@ -6,11 +6,11 @@ defineEmits(['openSearchBar'])
   <footer class="text-gray-100 body-font bg-white border-t-2 border-gray-400 mt-4">
     <div class="container px-5 py-24 mx-auto flex  md:flex-row justify-between md:flex-nowrap flex-wrap flex-col">
       <div class="w-64 flex-shrink-0 md:mx-0 mx-auto text-center md:text-left mb-14 md:mb-0">
-        <a class="flex title-font font-medium items-center md:justify-start justify-center text-gray-900">
+        <div class="flex title-font font-medium items-center md:justify-start justify-center text-gray-900">
           <NuxtLink to="/" class="min-w-[170px]">
             <img src="/PRESSURE-logo.png" alt="" width="170">
           </NuxtLink>
-        </a>
+        </div>
         <p class="mt-2 text-sm text-gray-500">
           Best site for buying gym equipment
         </p>
@@ -21,11 +21,11 @@ defineEmits(['openSearchBar'])
             SHOP NOW
           </h2>
           <nav class="list-none mb-10">
-            <li class="hover:cursor-pointer" @click="$emit('openSearchBar')">
-              <a class="text-gray-600 hover:text-gray-800">Search</a>
+            <li class="hover:cursor-pointer text-gray-600 hover:text-gray-800" @click="$emit('openSearchBar')">
+              Search
             </li>
-            <NuxtLink to="/products">
-              <a class="text-gray-600 hover:text-gray-800">All Products</a>
+            <NuxtLink to="/products" class="text-gray-600 hover:text-gray-800">
+              All Products
             </NuxtLink>
             <li>
               <NuxtLink to="/best-sellers" class="text-gray-600 hover:text-gray-800">
