@@ -3,7 +3,7 @@ defineEmits(['openSearchBar'])
 </script>
 
 <template>
-  <footer class="text-gray-100 body-font bg-white">
+  <footer class="text-gray-100 body-font bg-white border-t-2 border-gray-400 mt-4">
     <div class="container px-5 py-24 mx-auto flex  md:flex-row justify-between md:flex-nowrap flex-wrap flex-col">
       <div class="w-64 flex-shrink-0 md:mx-0 mx-auto text-center md:text-left mb-14 md:mb-0">
         <a class="flex title-font font-medium items-center md:justify-start justify-center text-gray-900">
