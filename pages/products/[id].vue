@@ -25,6 +25,29 @@ function handleCurrentImageIndexChange(swiper) {
 function handleIsImageExpanded() {
   isImageExpanded.value = !isImageExpanded.value
 }
+
+function handleShareProduct() {
+  if (navigator.share) {
+    navigator
+      .share({
+        title: product.value.title,
+        text: product.value.description,
+        url: window.location.href,
+      })
+      .then(() => console.log('Successful share'))
+      .catch(error => console.log('Error sharing', error))
+  }
+}
+
+function handleAddToWishList(product) {
+  // TODO add to wishlist
+  console.log('add to wishlist', product)
+}
+
+function handleAddToCart(product) {
+  // TODO add to cart
+  console.log('add to cart', product)
+}
 </script>
 
 <template>
@@ -92,6 +115,16 @@ function handleIsImageExpanded() {
           <ProductPageComponentsProductDescription :description="product.description" title="Description" border-class="border-y-2" />
 
           <ProductPageComponentsProductDescription :description="product.sizeGuide" title="Fit" class="mt-1" border-class="border-b-2" />
+
+          <!-- Share button -->
+          <div>
+            <button
+              class=" text-black px-2 py-2 my-4 rounded-3xl font-medium uppercase flex items-center justify-center hover:text-slate-800 transition duration-200" @click="handleShareProduct"
+            >
+              <Icon name="material-symbols:upload" size="20" />
+              <span class="ml-1 underline">Share</span>
+            </button>
+          </div>
         </div>
       </div>
 

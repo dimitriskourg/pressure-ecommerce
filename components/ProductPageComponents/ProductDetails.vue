@@ -32,7 +32,7 @@ const oldPriceComputed = computed(() => {
     </div>
 
     <div class="text-base font-semibold my-3">
-      <span v-if="product.discount" class="line-through">
+      <span v-if="product.discount" class="line-through text-rose-900">
         {{ oldPriceComputed }}€
       </span> <span>{{ priceComputed }}€</span>
     </div>
