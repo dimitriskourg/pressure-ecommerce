@@ -26,7 +26,8 @@
     "nuxt-lodash": "^2.5.0",
     "pinia": "^2.1.7",
     "prisma": "^5.4.2",
-    "stripe": "^14.0.0"
+    "stripe": "^14.0.0",
+    "swiper": "^11.0.4"
   },
   "devDependencies": {
     "@nuxt/devtools": "latest",

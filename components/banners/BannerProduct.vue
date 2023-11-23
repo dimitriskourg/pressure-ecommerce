@@ -26,7 +26,7 @@ const { category } = toRefs(props)
     </div>
 
     <div class="absolute inset-0 flex flex-col items-start justify-end p-6">
-      <h3 class="text-xl font-medium text-white">
+      <h3 class="text-xl font-medium text-white text-shadow-lg shadow-indigo-500/50">
         {{ category.category }}
       </h3>
 
