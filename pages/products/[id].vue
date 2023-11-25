@@ -2,6 +2,7 @@
 import { Swiper, SwiperSlide } from 'swiper/vue'
 import { Navigation, Scrollbar, Zoom } from 'swiper/modules'
 import MainLayout from '~/layouts/MainLayout.vue'
+import { useUserStore } from '~/stores/user'
 
 // Import Swiper styles
 import 'swiper/css'
@@ -11,6 +12,7 @@ import 'swiper/css/scrollbar'
 import 'swiper/css/zoom'
 
 const { id } = useRoute().params
+const userStore = useUserStore()
 const modules = [Navigation, Scrollbar, Zoom]
 
 const { data: product } = await useFetch('/api/product')
@@ -58,6 +60,7 @@ function handleAddToCart(product) {
   console.log('add to cart', product)
   addToCartText.value = 'Added to cart'
   addedToCart.value = true
+  userStore.addToCart(product, selectedSize.value, crypto.randomUUID())
   setTimeout(() => {
     addToCartText.value = 'Add to cart'
     addedToCart.value = false

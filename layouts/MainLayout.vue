@@ -1,9 +1,13 @@
 <script setup>
+import { useUserStore } from '~/stores/user'
+
+const userStore = useUserStore()
+
 const isDrawerHidden = ref(true)
 const isSearchBarHidden = ref(true)
 const searchedValue = ref('')
 const isSearching = ref(false)
-const hasCartItems = ref(false)
+const hasCartItems = computed(() => userStore.cart.length > 0)
 
 function clickedDrawer() {
   isDrawerHidden.value = !isDrawerHidden.value
@@ -56,7 +60,7 @@ function clickedDrawer() {
           <NuxtLink to="/cart" class="p-2 hover:bg-gray-200 rounded-lg relative">
             <Icon name="ph:bag-bold" size="30" class="" />
             <!-- bubble over cart to show that cart has items -->
-            <div v-if="hasCartItems" class="absolute top-2 right-1 w-3 h-3 rounded-full bg-gray-800" />
+            <div v-if="hasCartItems" class="absolute top-2 right-1 w-4 h-4  rounded-full bg-cyan-700" />
           </NuxtLink>
         </div>
       </div>
