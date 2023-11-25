@@ -6,7 +6,18 @@ const props = defineProps({
   },
 })
 
+const emits = defineEmits(['sizeSelected'])
+
 const { availableSizes } = toRefs(props)
+const selectedSize = ref(null)
+
+function sizeSelected(size) {
+  if (size.quantity === 0)
+    return
+
+  emits('sizeSelected', size)
+  selectedSize.value = size
+}
 </script>
 
 <template>
@@ -20,7 +31,7 @@ const { availableSizes } = toRefs(props)
           {{ size.size }}
         </div>
 
-        <div v-else class="bg-gray-200 text-gray-500 rounded-full w-10 h-10 flex justify-center items-center cursor-pointer hover:bg-gray-300">
+        <div v-else class="bg-gray-200 text-gray-500 rounded-full w-10 h-10 flex justify-center items-center cursor-pointer hover:bg-gray-300" :class="{ 'bg-gray-700 hover:bg-gray-900 text-white': selectedSize === size.size }" @click="sizeSelected(size.size)">
           {{ size.size }}
         </div>
       </div>
