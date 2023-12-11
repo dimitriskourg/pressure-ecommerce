@@ -67,15 +67,6 @@ const { subTotal, vat, discount, total, discountApplied } = toRefs(props)
           <p class="whitespace-nowrap text-xs">{{ discountApplied }} Discounts Applied</p>
         </span>
       </div>
-
-      <div class="flex justify-end">
-        <a
-          href="#"
-          class="block rounded bg-gray-700 px-5 py-3 text-sm text-gray-100 transition hover:bg-gray-600"
-        >
-          Checkout
-        </a>
-      </div>
     </div>
   </div>
 </template>

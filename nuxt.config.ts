@@ -8,11 +8,14 @@ export default defineNuxtConfig({
     '@pinia/nuxt',
     '@pinia-plugin-persistedstate/nuxt',
     '@nuxtjs/tailwindcss',
-    // '@nuxtjs/supabase',
+    '@nuxtjs/supabase',
   ],
   runtimeConfig: {
     public: {
+      // eslint-disable-next-line node/prefer-global/process
       stripePk: process.env.STRIPE_PK_KEY,
+      // eslint-disable-next-line node/prefer-global/process
+      resentPK: process.env.RESEND_API_KEY,
     },
   },
   build: {
@@ -24,5 +27,8 @@ export default defineNuxtConfig({
         { src: 'https://js.stripe.com/v3/', defer: true },
       ],
     },
+  },
+  supabase: {
+    redirect: false,
   },
 })
