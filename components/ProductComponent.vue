@@ -8,6 +8,8 @@ const props = defineProps({
 })
 const { product } = toRefs(props)
 
+console.log(product.value)
+
 const priceComputed = computed(() => {
   const res = (product.value.price / 100) - (product.value.price / 100) * (product.value.discount / 100)
   return res.toFixed(2)
@@ -21,7 +23,7 @@ const oldPriceComputed = computed(() => {
 <template>
   <div :id="`ProductComponent${product.id}`" class="rounded hover:shadow-md cursor-pointer mx-4 my-3">
     <NuxtLink :to="`/products/${product.id}`" class="relative transition-transform transform hover:grayscale-[60%]">
-      <img :src="product.url" :alt="product.title" class="rounded-t">
+      <img :src="product.images[0]" :alt="product.title" class="rounded-t">
       <div v-if="product.countInStock === 0" class="absolute left-1 top-1 font-light bg-white/30 py-1 px-3 text-white">
         SOLD-OUT
       </div>

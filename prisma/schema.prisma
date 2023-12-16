@@ -290,7 +290,7 @@ model addresses {
   city      String
   country   String
   zipcode   String
-  createdAt DateTime @default(now())
+  createdAt DateTime @default(dbgenerated("(now() AT TIME ZONE 'utc'::text)")) @db.Timestamptz(6)
   user_id   String   @db.Uuid
   users     users    @relation(fields: [user_id], references: [id], onDelete: Cascade)
 
@@ -303,9 +303,9 @@ model orderItems {
   order_id   Int
   product_id Int
   quantity   Int
-  size       String
-  createdAt  DateTime @default(now())
-  updatedAt  DateTime
+  size       String   @default("")
+  createdAt  DateTime @default(dbgenerated("(now() AT TIME ZONE 'utc'::text)")) @db.Timestamptz(6)
+  updatedAt  DateTime @default(dbgenerated("(now() AT TIME ZONE 'utc'::text)")) @db.Timestamptz(6)
   orders     orders   @relation(fields: [order_id], references: [id], onDelete: Cascade)
   products   products @relation(fields: [product_id], references: [id], onDelete: Cascade)
 
@@ -321,8 +321,8 @@ model orders {
   city       String
   country    String
   zipcode    String
-  createdAt  DateTime     @default(now())
-  updatedAt  DateTime
+  createdAt  DateTime     @default(dbgenerated("(now() AT TIME ZONE 'utc'::text)")) @db.Timestamptz(6)
+  updatedAt  DateTime     @default(dbgenerated("(now() AT TIME ZONE 'utc'::text)")) @db.Timestamptz(6)
   user_id    String       @db.Uuid
   orderItems orderItems[]
   users      users        @relation(fields: [user_id], references: [id], onDelete: Cascade)
@@ -338,13 +338,13 @@ model products {
   images      String[]
   description String
   discount    Int
-  createdAt   DateTime     @default(now())
-  updatedAt   DateTime
+  createdAt   DateTime     @default(dbgenerated("(now() AT TIME ZONE 'utc'::text)")) @db.Timestamptz(6)
+  updatedAt   DateTime     @default(dbgenerated("(now() AT TIME ZONE 'utc'::text)")) @db.Timestamptz(6)
   category    String
   colors      String[]
   fit         String
   orderItems  orderItems[]
-  stock       stock?
+  stock       stock[]
 
   @@schema("public")
 }
@@ -352,12 +352,12 @@ model products {
 /// This model contains row level security and requires additional setup for migrations. Visit https://pris.ly/d/row-level-security for more info.
 model stock {
   id         Int      @id @default(autoincrement())
-  product_id Int      @unique
-  size       String
+  product_id Int
+  size       String?
   color      String
   quantity   Int
-  createdAt  DateTime @default(now())
-  updatedAt  DateTime
+  createdAt  DateTime @default(dbgenerated("(now() AT TIME ZONE 'utc'::text)")) @db.Timestamptz(6)
+  updatedAt  DateTime @default(dbgenerated("(now() AT TIME ZONE 'utc'::text)")) @db.Timestamptz(6)
   products   products @relation(fields: [product_id], references: [id], onDelete: Cascade)
 
   @@schema("public")
