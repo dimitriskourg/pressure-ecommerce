@@ -51,7 +51,7 @@ function clickedDrawer() {
 
         <!-- Desktop Header buttons -->
         <div class="hidden md:flex items-center ">
-          <NuxtLink to="/auth" class="p-2 hover:bg-gray-200 rounded-lg">
+          <NuxtLink to="/auth/login" class="p-2 hover:bg-gray-200 rounded-lg">
             <Icon name="ph:user-bold" size="30" class="" />
           </NuxtLink>
           <button class="p-2 hover:bg-gray-200 rounded-lg">

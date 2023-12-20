@@ -58,7 +58,7 @@ const { subTotal, vat, discount, total, discountApplied } = toRefs(props)
         </div>
       </dl>
 
-      <div v-if="discountApplied !== '0'" class="flex justify-end">
+      <div v-if="discountApplied !== 0" class="flex justify-end">
         <span
           class="inline-flex items-center justify-center rounded-full bg-indigo-100 px-2.5 py-0.5 text-indigo-700"
         >

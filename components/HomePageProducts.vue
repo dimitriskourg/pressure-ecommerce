@@ -1,6 +1,10 @@
 <script setup>
 const products = ref([])
-const { data: prods, error, pending } = await useFetch('/api/public/products')
+const { data: prods, error, pending } = await useFetch('/api/public/products', {
+  query: {
+    toIndex: 6,
+  },
+})
 if (error)
   console.log(error)
 products.value = prods.value

@@ -27,9 +27,9 @@ function decreaseQuantity(productUUID, quantity) {
     >
 
     <div>
-      <h3 class="text-sm md:text-base text-gray-900">
+      <NuxtLink :to="`/products/${product.id}`" class="text-sm md:text-base text-gray-900 hover:underline">
         {{ product.title }}
-      </h3>
+      </NuxtLink>
 
       <dl class="mt-0.5 space-y-px text-[11px] md:text-sm text-gray-600">
         <div>
@@ -46,7 +46,7 @@ function decreaseQuantity(productUUID, quantity) {
             Color:
           </dt>
           <dd class="inline">
-            White
+            {{ product.stock[0].color }}
           </dd>
         </div>
       </dl>
