@@ -5,8 +5,8 @@ const { data: prods, error, pending } = await useFetch('/api/public/products', {
     toIndex: 6,
   },
 })
-if (error)
-  console.error(error)
+if (error.value)
+  console.error(error.value)
 products.value = prods.value
 </script>
 

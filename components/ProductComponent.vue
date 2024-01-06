@@ -8,8 +8,6 @@ const props = defineProps({
 })
 const { product } = toRefs(props)
 
-console.log(product.value)
-
 const priceComputed = computed(() => {
   const res = (product.value.price / 100) - (product.value.price / 100) * (product.value.discount / 100)
   return res.toFixed(2)
