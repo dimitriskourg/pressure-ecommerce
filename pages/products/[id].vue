@@ -20,9 +20,9 @@ const { data: product, error, pending } = await useFetch('/api/public/product', 
     id,
   },
 })
-if (error)
-  console.error(error)
-console.error(product.value)
+if (error.value)
+  console.error(error.value)
+console.log(product.value)
 
 const availableSizes = ref([])
 
@@ -35,7 +35,7 @@ product.value.stock.forEach((size) => {
   }
 })
 
-console.error(availableSizes.value)
+console.log('Available Sizes:', availableSizes.value)
 
 const isImageExpanded = ref(false)
 const currentImageIndex = ref(0)
