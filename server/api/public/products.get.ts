@@ -58,8 +58,8 @@ export default defineEventHandler(async (event) => {
 
   try {
     const productsInRange = await prisma.products.findMany({
-      skip: fromIndex,
-      take: toIndex - fromIndex,
+      // skip: fromIndex,
+      // take: toIndex - fromIndex,
       where: {
         stock: {
           some: {
@@ -96,7 +96,7 @@ export default defineEventHandler(async (event) => {
       },
     })
 
-    const finalResult = productsInRange.filter((product) => {
+    let finalResult = productsInRange.filter((product) => {
       let sizesFilters = true
       let colorsFilters = true
       if (sizes.length > 0)
@@ -106,7 +106,14 @@ export default defineEventHandler(async (event) => {
       return sizesFilters && colorsFilters
     })
 
-    return finalResult
+    // get only the products in the range
+    const totalProducts = finalResult.length
+    finalResult = finalResult.slice(fromIndex, toIndex)
+
+    return {
+      totalProducts,
+      products: finalResult,
+    }
   }
   catch (e) {
     console.error(e)

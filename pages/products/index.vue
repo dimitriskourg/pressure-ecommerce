@@ -6,12 +6,16 @@ const categoriesSelected = ref([])
 const sizesSelected = ref([])
 const colorsSelected = ref([])
 const priceRangeSelected = ref('0_100000000')
+const currentPage = ref(1)
+
+const fromIndex = computed(() => (currentPage.value - 1) * 12)
+const toIndex = computed(() => currentPage.value * 12)
 
 const { data: prods, error, pending } = await useFetch('/api/public/products', {
   query: {
     minQuantity: 0,
-    fromIndex: 0,
-    toIndex: 12,
+    fromIndex,
+    toIndex,
     sortBy,
     priceRange: priceRangeSelected,
     categories: categoriesSelected,
@@ -25,6 +29,10 @@ if (error.value)
 watch(prods, (newVal) => {
   console.log('Products:', newVal)
 })
+
+watch(currentPage, (newVal) => {
+  console.log('Current page:', newVal)
+})
 </script>
 
 <template>
@@ -37,7 +45,8 @@ watch(prods, (newVal) => {
           />
         </div>
         <div class="md:w-[70%] mt-5">
-          <ProductsPageComponentsProducts :products="prods" :loading="pending" />
+          <ProductsPageComponentsProducts :products="prods.products" :loading="pending" />
+          <ProductsPageComponentsPagination v-model:current-page="currentPage" class="my-10 mx-auto" :total-pages="prods.totalProducts" />
         </div>
       </div>
     </div>

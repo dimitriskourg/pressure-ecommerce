@@ -9,13 +9,29 @@ export default defineNuxtConfig({
     '@pinia-plugin-persistedstate/nuxt',
     '@nuxtjs/tailwindcss',
     '@nuxtjs/supabase',
+    'shadcn-nuxt',
   ],
+  shadcn: {
+    /**
+     * Prefix for all the imported component
+     */
+    prefix: '',
+    /**
+     * Directory that the component lives in.
+     * @default "./components/ui"
+     */
+    componentDir: './components/ui',
+  },
   runtimeConfig: {
+    // eslint-disable-next-line node/prefer-global/process
+    STRIPE_SECRET_KEY: process.env.STRIPE_SECRET_KEY,
+    // eslint-disable-next-line node/prefer-global/process
+    ENDPOINT_SECRET: process.env.ENDPOINT_SECRET,
+    // eslint-disable-next-line node/prefer-global/process
+    resendPK: process.env.RESEND_API_KEY,
     public: {
       // eslint-disable-next-line node/prefer-global/process
       stripePk: process.env.STRIPE_PK_KEY,
-      // eslint-disable-next-line node/prefer-global/process
-      resentPK: process.env.RESEND_API_KEY,
     },
   },
   build: {
