@@ -13,6 +13,14 @@ function clickedDrawer() {
   isDrawerHidden.value = !isDrawerHidden.value
   isSearchBarHidden.value = true
 }
+
+watch(searchedValue, (newVal) => {
+  if (newVal.length > 0)
+    isSearching.value = true
+
+  else
+    isSearching.value = false
+})
 </script>
 
 <template>
@@ -81,7 +89,7 @@ function clickedDrawer() {
       </div>
 
       <!-- search bar -->
-      <div class="bg-white border-gray-200 shadow-sm text-md sm:text-lg border-b text-gray-600 hover:text-gray-700" :class="isSearchBarHidden ? 'hidden' : ''">
+      <div class="bg-white text-md sm:text-lg rounded-md border text-gray-600 hover:text-gray-700" :class="isSearchBarHidden ? 'hidden' : ''">
         <div class="relative px-4">
           <label for="Search" class="sr-only">Search</label>
           <div class="relative flex items-center">
@@ -92,7 +100,7 @@ function clickedDrawer() {
               placeholder="SEARCH..."
               class="w-full py-4 pe-10 px-7 outline-none"
             >
-            <Icon v-if="isSearching" name="eos-icons:loading" size="25" class="mr-5 mt-1" />
+            <Icon v-if="isSearching" name="eos-icons:loading" size="25" class="mr-8 mt-1" />
             <button type="button" class=" absolute inset-y-0 end-0" @click="searchedValue = ''; isSearchBarHidden = !isSearchBarHidden">
               <Icon name="ph:x-bold" size="20" />
             </button>
@@ -101,6 +109,7 @@ function clickedDrawer() {
             </button>
           </div>
         </div>
+        <SearchBarResults v-if="searchedValue" v-model:is-loading="isSearching" :search-value="searchedValue" />
         <!-- end of search bar  -->
       </div>
     </div>

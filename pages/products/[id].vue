@@ -22,7 +22,7 @@ const { data: product, error, pending } = await useFetch('/api/public/product', 
 })
 if (error.value)
   console.error(error.value)
-console.log(product.value)
+console.log('Product:', product.value)
 
 const availableSizes = ref([])
 

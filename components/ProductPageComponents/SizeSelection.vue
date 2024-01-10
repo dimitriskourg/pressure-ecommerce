@@ -31,7 +31,11 @@ function sizeSelected(size) {
           {{ size.size }}
         </div>
 
-        <div v-else class="bg-gray-200 text-gray-500 rounded-full w-10 h-10 flex justify-center items-center cursor-pointer hover:bg-gray-300" :class="{ 'bg-gray-700 hover:bg-gray-900 text-white': selectedSize === size.size }" @click="sizeSelected(size.size)">
+        <div v-else-if="size.size.length > 5" class="bg-gray-200 text-gray-500 rounded-full w-28 h-12 flex justify-center items-center text-sm cursor-pointer hover:bg-gray-300" :class="{ 'bg-gray-700 hover:bg-gray-900 text-white': selectedSize === size.size }" @click="sizeSelected(size.size)">
+          {{ size.size }}
+        </div>
+
+        <div v-else class="bg-gray-200 text-gray-500 rounded-full w-12 h-12 flex justify-center items-center text-sm cursor-pointer hover:bg-gray-300" :class="{ 'bg-gray-700 hover:bg-gray-900 text-white': selectedSize === size.size }" @click="sizeSelected(size.size)">
           {{ size.size }}
         </div>
       </div>
