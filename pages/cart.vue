@@ -50,11 +50,12 @@ function onRemoveItem(productUUID) {
 }
 
 async function goToCheckout() {
-  // userStore.cart.forEach((product) => {
-  //   userStore.addToCheckout(toRaw(product))
-  // })
-  // return navigateTo('/checkout')
-  await useFetch('/api/send')
+  userStore.clearCheckout()
+  userStore.cart.forEach((product) => {
+    userStore.addToCheckout(toRaw(product))
+  })
+  return navigateTo('/checkout')
+  // await useFetch('/api/send')
 }
 </script>
 

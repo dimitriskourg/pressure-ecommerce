@@ -31,18 +31,11 @@ export default defineNuxtConfig({
     resendPK: process.env.RESEND_API_KEY,
     public: {
       // eslint-disable-next-line node/prefer-global/process
-      stripePk: process.env.STRIPE_PK_KEY,
+      STRIPE_PUBLIC_KEY: process.env.STRIPE_PK_KEY,
     },
   },
   build: {
     transpile: ['pinia-plugin-persistedstate'],
-  },
-  app: {
-    head: {
-      script: [
-        { src: 'https://js.stripe.com/v3/', defer: true },
-      ],
-    },
   },
   supabase: {
     redirect: false,

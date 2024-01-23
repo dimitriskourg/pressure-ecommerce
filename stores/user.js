@@ -11,7 +11,14 @@ export const useUserStore = defineStore(
     actions: {
       // add an item to the cart
       addToCart(product, selectedSize, uuid, selectedQuantity = 1) {
-        console.log('addToCart uuid', uuid)
+        // check if this product with this color is already in the cart
+        const isAlreadyInCart = this.cart.find(item => item.id === product.id && item.selectedSize === selectedSize)
+        if (isAlreadyInCart) {
+          // if it is, just increment the quantity
+          isAlreadyInCart.selectedQuantity += selectedQuantity
+          return
+        }
+        // otherwise, add a new item
         this.cart.push({ ...product, selectedSize, uuid, selectedQuantity })
       },
       changeCartQuantity(productUUID, selectedQuantity) {
@@ -30,6 +37,8 @@ export const useUserStore = defineStore(
       },
       // add an item to the checkout
       addToCheckout(product) {
+        // calculate total price (after discount)
+        product.totalPrice = ((product.price - (product.price * product.discount / 100)) * product.selectedQuantity) / 100
         this.checkout.push(product)
       },
       // remove item from checkout
