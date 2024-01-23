@@ -40,7 +40,7 @@ const totalStock = computed(() => {
         <div class="text-md font-semibold uppercase">
           {{ product.title }}
         </div>
-        <div class="text-base text-gray-500 flex justify-center items-center">
+        <div class="text-base text-gray-500 flex justify-start items-center">
           <div v-if="product.discount" class="line-through text-rose-800 mx-1">
             {{ oldPriceComputed }}€
           </div> <div>{{ priceComputed }}€</div>
