@@ -8,21 +8,36 @@ export default defineNuxtConfig({
     '@pinia/nuxt',
     '@pinia-plugin-persistedstate/nuxt',
     '@nuxtjs/tailwindcss',
-    // '@nuxtjs/supabase',
+    '@nuxtjs/supabase',
+    'shadcn-nuxt',
   ],
+  shadcn: {
+    /**
+     * Prefix for all the imported component
+     */
+    prefix: '',
+    /**
+     * Directory that the component lives in.
+     * @default "./components/ui"
+     */
+    componentDir: './components/ui',
+  },
   runtimeConfig: {
+    // eslint-disable-next-line node/prefer-global/process
+    STRIPE_SECRET_KEY: process.env.STRIPE_SECRET_KEY,
+    // eslint-disable-next-line node/prefer-global/process
+    ENDPOINT_SECRET: process.env.ENDPOINT_SECRET,
+    // eslint-disable-next-line node/prefer-global/process
+    resendPK: process.env.RESEND_API_KEY,
     public: {
-      stripePk: process.env.STRIPE_PK_KEY,
+      // eslint-disable-next-line node/prefer-global/process
+      STRIPE_PUBLIC_KEY: process.env.STRIPE_PK_KEY,
     },
   },
   build: {
     transpile: ['pinia-plugin-persistedstate'],
   },
-  app: {
-    head: {
-      script: [
-        { src: 'https://js.stripe.com/v3/', defer: true },
-      ],
-    },
+  supabase: {
+    redirect: false,
   },
 })

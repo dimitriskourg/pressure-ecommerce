@@ -1,4 +1,4 @@
-export default defineEventHandler(() => {
+export default defineEventHandler(async () => {
   const product
     = { id: 1,
 title: 'Unbound Performance Oversized T-Shirt',

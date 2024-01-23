@@ -15,7 +15,27 @@ const { id } = useRoute().params
 const userStore = useUserStore()
 const modules = [Navigation, Scrollbar, Zoom]
 
-const { data: product } = await useFetch('/api/product')
+const { data: product, error, pending } = await useFetch('/api/public/product', {
+  query: {
+    id,
+  },
+})
+if (error.value)
+  console.error(error.value)
+console.log('Product:', product.value)
+
+const availableSizes = ref([])
+
+product.value.stock.forEach((size) => {
+  if (size.quantity > 0) {
+    availableSizes.value.push({
+      size: size.size,
+      quantity: size.quantity,
+    })
+  }
+})
+
+console.log('Available Sizes:', availableSizes.value)
 
 const isImageExpanded = ref(false)
 const currentImageIndex = ref(0)
@@ -115,11 +135,11 @@ function handleSizeSelection(size) {
         </div>
 
         <div class="md:w-[50%] bg-white p-3 rounded-md">
-          <CommonRating :rating="product.rating" :num-reviews="product.numReviews" />
+          <CommonRating :rating="5" :num-reviews="4" />
 
           <ProductPageComponentsProductDetails :product="product" />
 
-          <ProductPageComponentsSizeSelection :available-sizes="product.sizes" @size-selected="handleSizeSelection" />
+          <ProductPageComponentsSizeSelection :available-sizes="availableSizes" @size-selected="handleSizeSelection" />
 
           <div class="my-10 flex flex-col items-center justify-center max-w-[70%]">
             <!-- Button for  add to cart -->
@@ -150,7 +170,7 @@ function handleSizeSelection(size) {
 
           <ProductPageComponentsProductDescription :description="product.description" title="Description" border-class="border-y-2" />
 
-          <ProductPageComponentsProductDescription :description="product.sizeGuide" title="Fit" class="mt-1" border-class="border-b-2" />
+          <ProductPageComponentsProductDescription :description="product.fit" title="Fit" class="mt-1" border-class="border-b-2" />
 
           <!-- Share button -->
           <div>

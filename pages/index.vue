@@ -1,10 +1,8 @@
 <script setup>
-import MainLayout from '~/layouts/MainLayout.vue'
-import { useUserStore } from '~/stores/user'
+import MainLayout from '~/layouts/MainLayout.vue';
+import { useUserStore } from '~/stores/user';
 
 const userStore = useUserStore()
-
-const { data: products } = await useFetch('/api/products')
 </script>
 
 <template>
@@ -20,12 +18,7 @@ const { data: products } = await useFetch('/api/products')
         <div class="uppercase text-center text-2xl my-12 font-semibold">
           All Products
         </div>
-        <CommonLoading v-if="userStore.isLoading" />
-        <div v-if="products" class="grid xl:grid-cols-4 lg:grid-cols-3 md:grid-cols-3 grid-cols-2 mx-5">
-          <div v-for="product in products" :key="product">
-            <ProductComponent :product="product" />
-          </div>
-        </div>
+        <HomePageProducts />
         <div class=" my-10  flex justify-center">
           <CommonButtonLink to="/products" class-styles="uppercase rounded-none py-2 px-5 bg-zinc-900 text-white">
             View All Products

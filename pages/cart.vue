@@ -2,16 +2,60 @@
 import MainLayout from '~/layouts/MainLayout.vue'
 import { useUserStore } from '~/stores/user'
 
+const vatPercentage = 24
+
 const userStore = useUserStore()
+userStore.isLoading = false
+
+console.log('userStore.cart', userStore.cart)
+
+const discountComputed = computed(() => {
+  const discount = userStore.cart.reduce((acc, product) => {
+    return acc + (product.discount > 0 ? product.price / 100 * product.selectedQuantity * product.discount / 100 : 0)
+  }, 0)
+  return discount.toFixed(2) ?? '0'
+})
+
+const numberOfDiscountedProducts = computed(() => {
+  const numberOfDiscountedProducts = userStore.cart.reduce((acc, product) => {
+    return acc + (product.discount > 0 ? 1 : 0)
+  }, 0)
+  return numberOfDiscountedProducts
+})
+
+const totalComputed = computed(() => {
+  let total = userStore.cart.reduce((acc, product) => {
+    return acc + product.price / 100 * product.selectedQuantity
+  }, 0)
+  total -= discountComputed.value
+  return total.toFixed(2)
+})
+
+const vatComputed = computed(() => {
+  const vat = totalComputed.value / (1 + vatPercentage / 100) * vatPercentage / 100
+  return vat.toFixed(2)
+})
+
+const subTotalComputed = computed(() => {
+  const subTotal = totalComputed.value - vatComputed.value
+  return subTotal.toFixed(2)
+})
 
 function onChangeQuantity(productUUID, quantity) {
-  console.log('onChangeQuantity', productUUID, quantity)
   userStore.changeCartQuantity(productUUID, quantity)
 }
 
 function onRemoveItem(productUUID) {
-  console.log('onRemoveItem', productUUID)
   userStore.removeFromCart(productUUID)
+}
+
+async function goToCheckout() {
+  userStore.clearCheckout()
+  userStore.cart.forEach((product) => {
+    userStore.addToCheckout(toRaw(product))
+  })
+  return navigateTo('/checkout')
+  // await useFetch('/api/send')
 }
 </script>
 
@@ -25,7 +69,13 @@ function onRemoveItem(productUUID) {
           </h1>
         </header>
 
-        <div v-if="userStore.cart.length === 0" class="mt-8 mb-72">
+        <div v-if="userStore.isLoading" class="mt-8 mb-36">
+          <div class="flex justify-center">
+            <CommonLoading />
+          </div>
+        </div>
+
+        <div v-else-if="userStore.cart.length === 0" class="mt-8 mb-72">
           <div class="flex justify-center">
             <Icon name="fa-regular:sad-cry" size="64" class="text-gray-800" />
           </div>
@@ -51,7 +101,13 @@ function onRemoveItem(productUUID) {
             <CartComponentsCartItem v-for="product in userStore.cart" :key="product.uuid" :product="product" @change-quantity="onChangeQuantity" @remove-item="onRemoveItem" />
           </ul>
 
-          <CartComponentsCartDetails sub-total="250" vat="25" discount="20" total="200" discount-applied="12" />
+          <CartComponentsCartDetails :sub-total="subTotalComputed" :vat="vatComputed" :discount="discountComputed" :total="totalComputed" :discount-applied="numberOfDiscountedProducts" />
+
+          <div class="flex justify-end my-4" @click="goToCheckout">
+            <button class="block rounded bg-gray-700 px-5 py-3 text-sm text-gray-100 transition hover:bg-gray-600">
+              Checkout
+            </button>
+          </div>
         </div>
       </div>
     </div>
