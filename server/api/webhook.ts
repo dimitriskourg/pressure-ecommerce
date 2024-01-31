@@ -26,6 +26,8 @@ export default defineEventHandler(async (event) => {
     throw createError({ statusCode: 400, message: (err as Error).message })
   }
 
+  console.log('The webhook event object:', hookEvent)
+
   switch (hookEvent.type) {
     case 'payment_intent.created':
       console.log('payment_intent.created')
