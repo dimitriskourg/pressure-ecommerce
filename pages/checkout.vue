@@ -91,8 +91,8 @@ async function onPlaceOrder() {
 
 <template>
   <MainLayout>
-    <div class="flex flex-col h-screen">
-      <main class="flex-1 overflow-y-auto p-4 md:p-6">
+    <div class="flex flex-col">
+      <main class="flex-1 p-4 md:p-6">
         <h1 class="text-2xl font-semibold mb-4">
           Checkout
         </h1>

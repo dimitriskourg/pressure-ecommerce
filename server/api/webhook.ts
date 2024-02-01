@@ -23,23 +23,27 @@ export default defineEventHandler(async (event) => {
     )
   }
   catch (err) {
+    console.log('Error message:', err)
     throw createError({ statusCode: 400, message: (err as Error).message })
   }
 
-  console.log('The webhook event object:', hookEvent)
+  // console.log('The webhook event object:', hookEvent)
 
   switch (hookEvent.type) {
     case 'payment_intent.created':
       console.log('payment_intent.created')
+      console.log('event is:', hookEvent.data.object.metadata)
       break
-    case 'payment_intent.succeeded':
+    case 'payment_intent.succeeded': {
       const intentSucceeded = hookEvent.data.object
       console.log('payment_intent.succeeded', intentSucceeded)
       break
-    case 'charge.succeeded':
+    }
+    case 'charge.succeeded':{
       const chargeSucceeded = hookEvent.data.object
       console.log('charge was successful!', chargeSucceeded)
       break
+    }
     //   // ... handle other event types
     default:
       console.log(`Unhandled event type ${hookEvent.type}`)

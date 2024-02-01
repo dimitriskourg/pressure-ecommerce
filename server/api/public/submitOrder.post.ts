@@ -112,6 +112,7 @@ export default defineEventHandler(async (event) => {
           emailOfCustomer: order.email,
           nameOfCustomer: order.name,
           addressOfCustomer: `${order.street}, ${order.zipcode} ${order.city}, ${order.country}`,
+          items: JSON.stringify(order.products),
         },
       })
 
