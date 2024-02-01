@@ -29,7 +29,7 @@ const totalStock = computed(() => {
       <div v-if="totalStock === 0" class="absolute left-1 top-1 font-light bg-white/30 py-1 px-3 text-white">
         SOLD-OUT
       </div>
-      <div v-if="product.discount" class="absolute right-1 top-1 font-light bg-red-700/80 py-1 px-3 text-white">
+      <div v-if="product.discount" class="absolute right-1 top-1 font-light bg-red-700/80 py-1 px-3 text-white text-sm">
         {{ product.discount }}% OFF
       </div>
 
