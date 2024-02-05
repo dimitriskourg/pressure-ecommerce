@@ -24,7 +24,7 @@ const totalStock = computed(() => {
 
 <template>
   <div :id="`ProductComponent${product.id}`" class="relative rounded hover:shadow-md cursor-pointer mx-4 my-3">
-    <NuxtLink :to="`/products/${product.id}`" class="sm:absolute transition-transform transform hover:grayscale-[60%]">
+    <NuxtLink :to="`/products/${product.id}`" class="transition-transform transform hover:grayscale-[60%]">
       <img :src="product.images[0]" :alt="product.title" class="rounded-t">
       <div v-if="totalStock === 0" class="absolute left-1 top-1 font-light bg-white/30 py-1 px-3 text-white text-sm">
         SOLD-OUT
