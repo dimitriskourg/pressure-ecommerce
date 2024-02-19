@@ -108,12 +108,25 @@ export default defineEventHandler(async (event) => {
       const paymentIntent = await stripe.paymentIntents.create({
         amount: totalPrice,
         currency: 'eur',
+        automatic_payment_methods: {
+          enabled: true,
+        },
         metadata: {
           emailOfCustomer: order.email,
           nameOfCustomer: order.name,
           addressOfCustomer: `${order.street}, ${order.zipcode} ${order.city}, ${order.country}`,
           items: JSON.stringify(order.products),
         },
+        shipping: {
+          name: order.name,
+          address: {
+            line1: order.street,
+            city: order.city,
+            country: order.country,
+            postal_code: order.zipcode,
+          },
+        },
+        receipt_email: order.email,
       })
 
       return {

@@ -32,6 +32,7 @@ export default defineNuxtConfig({
     public: {
       // eslint-disable-next-line node/prefer-global/process
       STRIPE_PUBLIC_KEY: process.env.STRIPE_PK_KEY,
+      BASE_URL: process.env.BASE_URL,
     },
   },
   build: {

@@ -1,5 +1,5 @@
 <script setup>
-import { Loader2 } from 'lucide-vue-next'
+import { AlertCircle, Loader2 } from 'lucide-vue-next'
 import { loadStripe } from '@stripe/stripe-js'
 import MainLayout from '~/layouts/MainLayout.vue'
 import { useUserStore } from '~/stores/user'
@@ -13,6 +13,7 @@ import {
 } from '@/components/ui/card'
 import { Button } from '@/components/ui/button'
 import { Label } from '@/components/ui/label'
+import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert'
 
 const userStore = useUserStore()
 
@@ -27,7 +28,10 @@ const email = ref('')
 
 let stripe = null
 let elements = null
+
 const loading = ref(true)
+const errorMessage = ref('')
+const disableSubmit = ref(false)
 
 onBeforeMount(async () => {
   if (userStore.checkout.length === 0)
@@ -54,6 +58,19 @@ async function onPlaceOrder() {
   if (!stripe || !elements)
     return
   loading.value = true
+
+  const { error: submitError } = await elements.submit()
+  if (submitError) {
+    loading.value = false
+    return
+  }
+
+  // check if all fields are filled
+  if (!name.value || !street.value || !city.value || !country.value || !zipcode.value || !email.value) {
+    loading.value = false
+    return errorMessage.value = 'Please fill in all Shipping information'
+  }
+
   const order = {
     name: name.value,
     street: street.value,
@@ -72,18 +89,41 @@ async function onPlaceOrder() {
       }
     }),
   }
-  console.log('order', order)
 
+  try {
   // create payment intents first and grab secret
+    const { data: clientSecret, error } = await useFetch('/api/public/submitOrder', {
+      method: 'POST',
+      body: {
+        order,
+      },
+    })
 
-  const { data: clientSecret, error } = await useFetch('/api/public/submitOrder', {
-    method: 'POST',
-    body: {
-      order,
-    },
-  })
-  console.log('clientSecret', clientSecret)
-  loading.value = false
+    const clntSecret = clientSecret.value.clientSecret
+
+    if (error.value) {
+      loading.value = false
+      disableSubmit.value = true
+      return errorMessage.value = 'An error occurred, Please try again later. You have not been charged.'
+    }
+
+    const { error: stripeError } = await stripe.confirmPayment({
+      elements,
+      clientSecret: clntSecret,
+      confirmParams: {
+        return_url: `${config.public.BASE_URL}/success`,
+      },
+    })
+
+    loading.value = false
+    if (stripeError)
+      return errorMessage.value = stripeError?.message ?? 'An error occurred, Please try again later. You have not been charged.'
+  }
+  catch (error) {
+    console.error('error 3:', error)
+    loading.value = false
+    return errorMessage.value = error?.message ?? 'An error occurred'
+  }
   // userStore.clearCheckout()
   // return navigateTo('/')
 }
@@ -114,7 +154,16 @@ async function onPlaceOrder() {
                   </div>
                 </form>
               </CardContent>
-              <CardFooter class="flex justify-end">
+              <CardFooter v-if="errorMessage">
+                <Alert variant="destructive">
+                  <AlertCircle class="w-4 h-4" />
+                  <AlertTitle>Error</AlertTitle>
+                  <AlertDescription>
+                    {{ errorMessage }}
+                  </AlertDescription>
+                </Alert>
+              </CardFooter>
+              <CardFooter v-if="!disableSubmit" class="flex justify-end">
                 <Button v-if="!loading" variant="outline" class="bg-black text-white" @click="onPlaceOrder">
                   Place Order
                 </Button>
