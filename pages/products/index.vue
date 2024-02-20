@@ -37,9 +37,9 @@ watch(currentPage, (newVal) => {
 
 <template>
   <MainLayout>
-    <div id="ProductsPage" class="mt-4 max-w-[1400px] mx-auto px-8 min-h-[60vh]">
+    <div id="ProductsPage" class="mt-4 max-w-[1400px] mx-auto md:px-8 min-h-[60vh]">
       <div class="md:flex gap-4 justify-between mx-auto w-full">
-        <div class="md:w-[30%] mt-5">
+        <div class="md:w-[30%] mt-5 px-8 md:px-0">
           <ProductsPageComponentsFilters
             v-model:sort-by="sortBy" v-model:categories-selected="categoriesSelected" v-model:sizes-selected="sizesSelected" v-model:colors-selected="colorsSelected" v-model:price-range-selected="priceRangeSelected"
           />
