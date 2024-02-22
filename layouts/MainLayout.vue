@@ -36,7 +36,7 @@ watch(searchedValue, (newVal) => {
             <div>CONTACT US</div>
           </NuxtLink>
         </div>
-        <NuxtLink to="/" class="min-w-[170px] transition-transform transform-gpu hover:scale-105 focus:scale-105 hover:shadow-md hover:rounded-sm">
+        <NuxtLink to="/" class="min-w-[170px] transition-transform transform-gpu hover:scale-105 focus:scale-105">
           <img src="/PRESSURE-logo.png" alt="" width="170" class="rounded-full">
         </NuxtLink>
 
