@@ -8,6 +8,7 @@ const isSearchBarHidden = ref(true)
 const searchedValue = ref('')
 const isSearching = ref(false)
 const hasCartItems = computed(() => userStore.cart.length > 0)
+const cartItemsNumber = computed(() => userStore.cart.reduce((acc, product) => acc + product.selectedQuantity, 0))
 
 function clickedDrawer() {
   isDrawerHidden.value = !isDrawerHidden.value
@@ -53,7 +54,9 @@ watch(searchedValue, (newVal) => {
           </button>
           <NuxtLink to="/cart" class="flex items-center p-2 hover:bg-gray-200 rounded-lg relative">
             <Icon name="ph:bag-bold" size="28" class="" />
-            <div v-if="hasCartItems" class="absolute top-2 right-1 w-3 h-3 rounded-full bg-gray-800" />
+            <div v-if="hasCartItems" class="absolute top-2 right-1 w-5 h-5 rounded-full bg-cyan-700 text-sm text-white flex items-center justify-center text-center">
+              {{ cartItemsNumber }}
+            </div>
           </NuxtLink>
         </div>
 
@@ -68,7 +71,9 @@ watch(searchedValue, (newVal) => {
           <NuxtLink to="/cart" class="p-2 hover:bg-gray-200 rounded-lg relative">
             <Icon name="ph:bag-bold" size="30" class="" />
             <!-- bubble over cart to show that cart has items -->
-            <div v-if="hasCartItems" class="absolute top-2 right-1 w-4 h-4  rounded-full bg-cyan-700" />
+            <div v-if="hasCartItems" class="absolute top-2 right-1 w-5 h-5 rounded-full bg-cyan-700 text-sm text-white flex items-center justify-center text-center">
+              {{ cartItemsNumber }}
+            </div>
           </NuxtLink>
         </div>
       </div>
