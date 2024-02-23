@@ -141,7 +141,7 @@ function handleSizeSelection(size) {
 
           <ProductPageComponentsSizeSelection :available-sizes="availableSizes" @size-selected="handleSizeSelection" />
 
-          <div class="my-10 flex flex-col items-center justify-center max-w-[70%]">
+          <div class="mb-10 flex flex-col items-center justify-center max-w-[70%]">
             <!-- Button for  add to cart -->
             <button
               class="bg-black text-white py-2 my-3 w-full rounded-3xl font-medium uppercase flex items-center justify-center hover:bg-gray-600 transition duration-200"
