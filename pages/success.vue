@@ -5,6 +5,13 @@ import MainLayout from '~/layouts/MainLayout.vue'
 import { Card, CardContent, CardFooter } from '@/components/ui/card'
 import { Button } from '@/components/ui/button'
 
+const route = useRoute()
+
+const orderId = computed(() => route.query?.payment_intent)
+
+if (route.query?.redirect_status !== 'succeeded')
+  navigateTo('/')
+
 const userStore = useUserStore()
 
 const totalPrice = ref(userStore.cart.reduce((acc, product) => {
@@ -14,7 +21,7 @@ const totalPrice = ref(userStore.cart.reduce((acc, product) => {
 userStore.clearCheckout()
 userStore.clearCart()
 
-const today = ref(new Date().toLocaleString())
+const date = useState('date', () => new Date().toISOString())
 </script>
 
 <template>
@@ -31,23 +38,23 @@ const today = ref(new Date().toLocaleString())
       </div>
       <Card class="w-full max-w-sm p-0">
         <CardContent class="p-4">
-          <div class="grid gap-1 text-sm">
+          <div class="grid text-sm mb-2">
             <div class="font-medium">
               Order number
             </div>
             <div class="text-gray-500 dark:text-gray-400">
-              #1234567890
+              #{{ orderId }}
             </div>
           </div>
-          <div class="grid gap-1 text-sm">
+          <div class="grid text-sm mb-2">
             <div class="font-medium">
               Date
             </div>
             <div class="text-gray-500 dark:text-gray-400">
-              {{ today }}
+              {{ date }}
             </div>
           </div>
-          <div class="grid gap-1 text-sm">
+          <div class="grid text-sm mb-2">
             <div class="font-medium">
               Total amount
             </div>

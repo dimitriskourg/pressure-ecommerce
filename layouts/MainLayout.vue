@@ -77,13 +77,19 @@ watch(searchedValue, (newVal) => {
       <div id="navbar-solid-bg" class="w-full md:hidden md:w-auto border-b-2" :class="isDrawerHidden ? 'hidden' : ''">
         <ul class="flex flex-col font-medium bg-white md:flex-row md:space-x-8 md:mt-0 md:border-0 md:bg-transparent">
           <li>
-            <a href="#" class="block py-4 pl-3 pr-4 border-b">SHOP</a>
+            <NuxtLink to="/products" class="block py-4 pl-3 pr-4 border-b">
+              SHOP
+            </NuxtLink>
           </li>
           <li>
-            <a href="#" class="block py-4 pl-3 pr-4 border-b">CONTACT US</a>
+            <NuxtLink to="/contact-us" class="block py-4 pl-3 pr-4 border-b">
+              CONTACT US
+            </NuxtLink>
           </li>
           <li>
-            <a href="#" class="block py-4 pl-3 pr-4 border-b text-sm">Account</a>
+            <NuxtLink to="/auth/login" class="block py-4 pl-3 pr-4 border-b text-sm">
+              Account
+            </NuxtLink>
           </li>
         </ul>
       </div>

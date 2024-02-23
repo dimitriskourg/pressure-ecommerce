@@ -26,6 +26,12 @@ const country = ref('')
 const zipcode = ref('')
 const email = ref('')
 
+const totalPrice = computed(() => {
+  return userStore.checkout.reduce((acc, product) => {
+    return acc + product.totalPrice
+  }, 0)
+})
+
 let stripe = null
 let elements = null
 
@@ -42,7 +48,7 @@ onMounted(async () => {
   stripe = await loadStripe(config.public.STRIPE_PUBLIC_KEY)
   elements = stripe.elements({
     mode: 'payment',
-    amount: 1000,
+    amount: totalPrice.value * 100,
     currency: 'eur',
   })
 
