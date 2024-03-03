@@ -11,7 +11,7 @@ async function signInWithGoogle() {
   const { error } = await supabase.auth.signInWithOAuth({
     provider: 'google',
     options: {
-      redirectTo: 'http://localhost:3000/auth/confirm',
+      redirectTo: 'https://www.dimitriskourg.gr/auth/confirm',
     },
   })
   if (error)
@@ -22,7 +22,7 @@ async function signInWithMagicLink() {
   const { error } = await supabase.auth.signInWithOtp({
     email: email.value,
   }, {
-    redirectTo: 'http://localhost:3000/auth/confirm',
+    redirectTo: 'https://www.dimitriskourg.gr/auth/confirm',
   })
   if (error) {
     emailError.value = true
