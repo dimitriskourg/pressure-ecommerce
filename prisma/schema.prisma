@@ -291,6 +291,7 @@ model addresses {
   zipcode   String
   createdAt DateTime @default(dbgenerated("(now() AT TIME ZONE 'utc'::text)")) @db.Timestamptz(6)
   user_id   String   @db.Uuid
+  name      String
   users     users    @relation(fields: [user_id], references: [id], onDelete: Cascade)
 
   @@schema("public")
