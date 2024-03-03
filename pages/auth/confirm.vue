@@ -4,7 +4,7 @@ import MainLayout from '~/layouts/MainLayout.vue'
 const user = useSupabaseUser()
 watch(user, () => {
   if (user.value)
-    return navigateTo('/addresses')
+    return navigateTo('/')
 }, { immediate: true })
 </script>
 
