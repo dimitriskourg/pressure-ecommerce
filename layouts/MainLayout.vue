@@ -1,6 +1,19 @@
 <script setup>
 import { useUserStore } from '~/stores/user'
 
+const supabase = useSupabaseClient()
+const user = useSupabaseUser()
+
+const userName = computed(() => user.value?.user_metadata.full_name ?? user.value?.email.split('@')[0])
+const isEshopAdmin = computed(() => user.value?.role === 'eshop_admin')
+
+const AccountLabel = computed(() => {
+  if (user.value)
+    return `Welcome, ${userName.value}`
+  else
+    return 'Account'
+})
+
 const userStore = useUserStore()
 
 const isDrawerHidden = ref(true)
@@ -22,6 +35,15 @@ watch(searchedValue, (newVal) => {
   else
     isSearching.value = false
 })
+
+async function onLogOut() {
+  const { error } = await supabase.auth.signOut()
+  if (error) {
+    console.log(error)
+    return
+  }
+  navigateTo('/')
+}
 </script>
 
 <template>
@@ -80,7 +102,19 @@ watch(searchedValue, (newVal) => {
 
       <!-- Drawer for mobile -->
       <div id="navbar-solid-bg" class="w-full md:hidden md:w-auto border-b-2" :class="isDrawerHidden ? 'hidden' : ''">
-        <ul class="flex flex-col font-medium bg-white md:flex-row md:space-x-8 md:mt-0 md:border-0 md:bg-transparent">
+        <ul v-if="isEshopAdmin" class="flex flex-col font-medium bg-white md:flex-row md:space-x-8 md:mt-0 md:border-0 md:bg-transparent">
+          <li>
+            <NuxtLink to="/admin" class="block py-4 pl-3 pr-4 border-b">
+              Admin Page
+            </NuxtLink>
+          </li>
+          <li>
+            <div class="block py-4 pl-3 pr-4 border-b hover:cursor-pointer" @click="onLogOut">
+              Log out
+            </div>
+          </li>
+        </ul>
+        <ul v-else class="flex flex-col font-medium bg-white md:flex-row md:space-x-8 md:mt-0 md:border-0 md:bg-transparent">
           <li>
             <NuxtLink to="/products" class="block py-4 pl-3 pr-4 border-b">
               SHOP
@@ -93,8 +127,13 @@ watch(searchedValue, (newVal) => {
           </li>
           <li>
             <NuxtLink to="/auth/login" class="block py-4 pl-3 pr-4 border-b text-sm">
-              Account
+              {{ AccountLabel }}
             </NuxtLink>
+          </li>
+          <li v-if="user">
+            <div class="block py-4 pl-3 pr-4 border-b hover:cursor-pointer" @click="onLogOut">
+              Log out
+            </div>
           </li>
         </ul>
       </div>
