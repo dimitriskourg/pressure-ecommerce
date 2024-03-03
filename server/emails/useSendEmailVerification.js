@@ -28,6 +28,7 @@ export default async function useSendEmailVerification(emailAddress, mode, custo
     })
 
     console.log(data)
+    console.log(`Email sent successfully to ${emailAddress}`)
     return data
   }
   catch (error) {
