@@ -1,6 +1,3 @@
-import type product from '~/server/api/product';
-import type product from '~/server/api/product';
-
 <script setup>
 import { useUserStore } from '~/stores/user'
 import {
@@ -11,9 +8,6 @@ import {
   CardHeader,
   CardTitle,
 } from '@/components/ui/card'
-import { Input } from '@/components/ui/input'
-import { Button } from '@/components/ui/button'
-import { Label } from '@/components/ui/label'
 
 const userStore = useUserStore()
 
