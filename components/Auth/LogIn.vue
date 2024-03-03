@@ -1,7 +1,11 @@
 <script setup>
+import { CheckCircle } from 'lucide-vue-next'
+
 const supabase = useSupabaseClient()
 const email = ref('')
 const emailError = ref(false)
+const successLinkCreated = ref(false)
+const emailErrorText = ref('')
 
 async function signInWithGoogle() {
   const { error } = await supabase.auth.signInWithOAuth({
@@ -20,14 +24,19 @@ async function signInWithMagicLink() {
   }, {
     redirectTo: 'http://localhost:3000/auth/confirm',
   })
-  if (error)
-    console.error(error)
+  if (error) {
+    emailError.value = true
+    emailErrorText.value = error.message
+    return
+  }
+  successLinkCreated.value = true
 }
 
 async function checkEmailAndSignIn() {
   console.log(email.value)
   if (!email.value) {
     emailError.value = true
+    emailErrorText.value = 'Please enter your email address'
     return
   }
   else {
@@ -68,13 +77,21 @@ async function checkEmailAndSignIn() {
 
       <div class="mt-4">
         <label class="block mb-2 text-sm font-medium text-gray-600" for="LoggingEmailAddress">Email Address</label>
-        <input id="LoggingEmailAddress" v-model="email" class="block w-full px-4 py-2 text-gray-700 bg-white border rounded-sm focus:border-gray-800 focus:ring-opacity-40 focus:outline-none focus:ring focus:ring-gray-600" type="email">
+        <input id="LoggingEmailAddress" v-model="email" class="block w-full px-4 py-2 text-gray-700 bg-white border rounded-sm focus:border-gray-800 focus:ring-opacity-40 focus:outline-none focus:ring focus:ring-gray-600" type="email" @keyup.enter="checkEmailAndSignIn">
       </div>
 
       <!-- Error message if email is empty -->
       <div v-if="emailError" class="mt-2 text-sm text-red-600">
-        <span>Please enter your email address</span>
+        <span>{{ emailErrorText }}</span>
       </div>
+
+      <Alert v-if="successLinkCreated" class="my-4">
+        <CheckCircle class="h-4 w-4" />
+        <AlertTitle>Success</AlertTitle>
+        <AlertDescription>
+          Please check your email for the magic link!
+        </AlertDescription>
+      </Alert>
 
       <div class="mt-6">
         <button class="w-full px-6 py-3 text-sm font-medium tracking-wide text-white uppercase transition-colors duration-300 transform bg-gray-800 rounded-sm hover:bg-gray-700 focus:outline-none focus:ring focus:ring-gray-300 focus:ring-opacity-50" @click="checkEmailAndSignIn">
