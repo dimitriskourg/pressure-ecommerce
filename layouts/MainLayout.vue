@@ -59,8 +59,8 @@ async function onLogOut() {
             <div>CONTACT US</div>
           </NuxtLink>
         </div>
-        <NuxtLink to="/" class="min-w-[170px] transition-transform transform-gpu hover:scale-105 focus:scale-105">
-          <img src="/PRESSURE-logo.png" alt="" width="170" class="rounded-full">
+        <NuxtLink to="/" class="min-w-[170px] hover:brightness-90	sm:hover:brightness-100 ">
+          <img src="/PRESSURE-logo.png" alt="" width="170" class="rounded-lg">
         </NuxtLink>
 
         <!-- Mobile Header buttons -->
