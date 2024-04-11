@@ -75,7 +75,7 @@ export default defineEventHandler(async (event) => {
       }
 
       // finally check if the price is correct
-      const DBprice = ((productFromDb.price - (productFromDb.price * productFromDb.discount / 100)) * product.selectedQuantity) / 100
+      const DBprice = ((productFromDb.price - (productFromDb.price * productFromDb.discount / 100)) * product.selectedQuantity)
       if (DBprice !== product.totalPrice) {
         isValid = false
         throw createError({
@@ -104,7 +104,7 @@ export default defineEventHandler(async (event) => {
   else {
   // now we can create the order
     try {
-      const totalPrice = order.products.reduce((acc: number, product: any) => acc + product.totalPrice, 0) * 100
+      const totalPrice = order.products.reduce((acc: number, product: any) => acc + product.totalPrice, 0)
       const paymentIntent = await stripe.paymentIntents.create({
         amount: totalPrice,
         currency: 'eur',
@@ -115,6 +115,7 @@ export default defineEventHandler(async (event) => {
           emailOfCustomer: order.email,
           nameOfCustomer: order.name,
           addressOfCustomer: `${order.street}, ${order.zipcode} ${order.city}, ${order.country}`,
+          user: order.user,
           items: JSON.stringify(order.products),
         },
         shipping: {

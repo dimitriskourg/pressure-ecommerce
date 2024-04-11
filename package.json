@@ -9,7 +9,9 @@
     "preview": "nuxt preview",
     "postinstall": "nuxt prepare",
     "lint": "eslint .",
-    "lint:fix": "eslint . --fix"
+    "lint:fix": "eslint . --fix",
+    "stripe:webhook": "stripe listen --forward-to http://localhost:3000/api/webhook",
+    "prisma:change": "npx prisma db pull && npx prisma generate"
   },
   "prisma": {
     "seed": "node prisma/seed.js"

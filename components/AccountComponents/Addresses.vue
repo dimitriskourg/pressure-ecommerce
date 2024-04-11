@@ -157,6 +157,16 @@ function editAddress(address) {
 
   dialogOpen.value = true
 }
+
+async function deleteAddress(address) {
+  await useFetch('/api/auth/address', {
+    method: 'DELETE',
+    headers: useRequestHeaders(['cookie']),
+    body: { id: address.id },
+  })
+
+  await refreshAddresses()
+}
 </script>
 
 <template>
@@ -183,6 +193,9 @@ function editAddress(address) {
               </div>
               <Button class="ml-auto hover:text-white hover:bg-black" size="sm" variant="outline" @click="editAddress(address)">
                 Edit
+              </Button>
+              <Button class="hover:text-white hover:bg-black" size="sm" variant="outline" @click="deleteAddress(address)">
+                Delete
               </Button>
             </div>
           </div>

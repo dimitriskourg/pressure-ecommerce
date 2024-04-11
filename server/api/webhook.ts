@@ -16,6 +16,8 @@ export default defineEventHandler(async (event) => {
         country: order.country,
         zipcode: order.zipcode,
         stripeId: order.stripeId,
+        user_id: order.user ? order.user : null,
+        total: order.totalPrice,
       },
     })
 
@@ -25,6 +27,7 @@ export default defineEventHandler(async (event) => {
       const productFromDb = await prisma.products.findUnique({
         where: {
           id: product.id,
+          price: product.price,
         },
         include: {
           stock: {
@@ -42,6 +45,7 @@ export default defineEventHandler(async (event) => {
 
       console.log('productFromDb:', productFromDb)
 
+      // TODO na allaksei auto
       if (productFromDb) {
         await prisma.orderItems.create({
           data: {
@@ -57,6 +61,7 @@ export default defineEventHandler(async (event) => {
                 id: orderId,
               },
             },
+            total: product.totalPrice,
           },
         })
 
@@ -81,12 +86,12 @@ export default defineEventHandler(async (event) => {
         productName: product.title,
         quantity: product.selectedQuantity,
         size: product.selectedSize,
-        price: product.totalPrice,
+        price: product.totalPrice / 100,
       }
     },
     )
     const customerTotal = order.products.reduce((acc: number, product: any) => {
-      return acc + product.totalPrice
+      return acc + product.totalPrice / 100
     }, 0)
 
     const customerName = order.name
@@ -150,6 +155,8 @@ export default defineEventHandler(async (event) => {
         products,
         stripeId: hookEvent.data.object.id,
         email: hookEvent.data.object.receipt_email,
+        user: hookEvent.data.object.metadata.user,
+        totalPrice: hookEvent.data.object.amount,
       }
 
       console.log('order is:', order)

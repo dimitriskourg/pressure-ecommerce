@@ -16,6 +16,9 @@ import { Label } from '@/components/ui/label'
 import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert'
 
 const userStore = useUserStore()
+const user = useSupabaseUser()
+
+console.log('userStore.checkout:', userStore.checkout)
 
 const config = useRuntimeConfig()
 
@@ -78,6 +81,7 @@ async function onPlaceOrder() {
   }
 
   const order = {
+    user: user.value?.id ?? null,
     name: name.value,
     street: street.value,
     city: city.value,
@@ -91,7 +95,7 @@ async function onPlaceOrder() {
         price: product.price,
         selectedSize: product.selectedSize,
         selectedQuantity: product.selectedQuantity,
-        totalPrice: product.totalPrice,
+        totalPrice: product.totalPrice * 100,
       }
     }),
   }

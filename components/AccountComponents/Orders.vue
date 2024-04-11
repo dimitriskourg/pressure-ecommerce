@@ -1,57 +1,47 @@
 <script setup>
 import { PackageSearch } from 'lucide-vue-next'
 import { Card, CardContent, CardFooter, CardHeader, CardTitle } from '@/components/ui/card'
-import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar'
 import { Button } from '@/components/ui/button'
 
-const user = useSupabaseUser()
+const { data: orders, pending: pendingOrders } = await useFetch('/api/auth/orders/userOrders', {
+  headers: useRequestHeaders(['cookie']),
+  query: {
+    latest: true,
+  },
 
-const userName = computed(() => user.value?.user_metadata.full_name ?? user.value?.email.split('@')[0])
-// take the first 2 letters
-const userNameInitials = computed(() => userName.value.slice(0, 2))
-const userEmail = computed(() => user.value?.email)
+})
 </script>
 
 <template>
   <Card>
     <CardHeader>
-      <CardTitle>Orders</CardTitle>
+      <CardTitle>Latest Orders</CardTitle>
     </CardHeader>
     <CardContent>
-      <div class="grid gap-4">
-        <div class="flex items-center gap-4">
-          <PackageSearch class="h-6 w-6" />
-          <div class="grid gap-1">
-            <h3 class="font-semibold">
-              #12345
-            </h3>
-            <div class="text-sm text-gray-500 dark:text-gray-400">
-              Placed on June 23, 2022
+      <div v-if="!pendingOrders" class="grid gap-2">
+        <div v-for="order in orders" :key="order.id" class="flex justify-around items-center gap-4 hover:bg-gray-200 rounded-lg p-3">
+          <NuxtLink :to="`/auth/orders/${order.id}`" class="flex justify-around items-center gap-4 w-full">
+            <PackageSearch class="h-6 w-6" />
+            <div class="grid gap-1">
+              <h3 class="font-semibold">
+                #{{ order.id }}
+              </h3>
+              <div class="text-sm text-gray-500 dark:text-gray-400">
+                Placed on {{ new Date(order.createdAt).toDateString() }}
+              </div>
             </div>
-          </div>
-          <div class="text-lg font-bold ml-auto">
-            $99.99
-          </div>
-        </div>
-        <div class="flex items-center gap-4">
-          <PackageSearch class="h-6 w-6" />
-          <div class="grid gap-1">
-            <h3 class="font-semibold">
-              #12346
-            </h3>
-            <div class="text-sm text-gray-500 dark:text-gray-400">
-              Placed on June 22, 2022
+            <div class="text-lg font-bold ml-auto">
+              {{ order.total / 100 }} €
             </div>
-          </div>
-          <div class="text-lg font-bold ml-auto">
-            $49.99
-          </div>
+          </NuxtLink>
         </div>
       </div>
     </CardContent>
     <CardFooter class="flex items-center gap-2">
       <Button variant="outline" class="bg-black text-white hover:bg-white hover:text-black">
-        View All Orders
+        <NuxtLink to="/auth/orders">
+          View All Orders
+        </NuxtLink>
       </Button>
     </CardFooter>
   </Card>
