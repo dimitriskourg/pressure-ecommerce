@@ -10,7 +10,7 @@ const { category } = toRefs(props)
 </script>
 
 <template>
-  <NuxtLink :id="`CategoryComponent${category.id}`" :to="`/category/${category.id}`" class="group relative block">
+  <NuxtLink :id="`CategoryComponent${category.id}`" :to="`/products?${category.buttonLink}=true`" class="group relative block">
     <div class="relative h-[350px] sm:h-[450px]">
       <img
         :src="category.mainImageUrl"

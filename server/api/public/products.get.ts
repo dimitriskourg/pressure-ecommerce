@@ -30,6 +30,10 @@ const prisma = new PrismaClient({
 export default defineEventHandler(async (event) => {
   const query = getQuery(event)
 
+  const bestSellers = query.bestSellers
+  const newRelease = query.newRelease
+  const onSale = query.onSale
+
   const fromIndex = Number(query.fromIndex) || 0
   const toIndex = Number(query.toIndex) || 10
   const minQuantity = Number(query.minQuantity) || 1
@@ -57,7 +61,7 @@ export default defineEventHandler(async (event) => {
   }
 
   try {
-    const productsInRange = await prisma.products.findMany({
+    const jsonToQuery = {
       // skip: fromIndex,
       // take: toIndex - fromIndex,
       where: {
@@ -73,6 +77,9 @@ export default defineEventHandler(async (event) => {
           lte: maxPrice,
         },
         ...(categoriesFilters.length > 0 && { OR: categoriesFilters }),
+        ...(newRelease === 'true' && { new_release: true }),
+        ...(onSale === 'true' && { discount: { gt: 0 } }),
+        ...(bestSellers === 'true' && { best_seller: true }),
       },
       include: {
         stock: {
@@ -94,7 +101,11 @@ export default defineEventHandler(async (event) => {
         ...(sortBy === 'price_desc' && { price: Prisma.SortOrder.desc }),
         ...(sortBy === 'newest' && { createdAt: Prisma.SortOrder.desc }), // Assuming 'createdAt' field exists for ordering by newest
       },
-    })
+    }
+
+    // console.log('jsonToQuery:', jsonToQuery)
+
+    const productsInRange = await prisma.products.findMany(jsonToQuery)
 
     let finalResult = productsInRange.filter((product) => {
       let sizesFilters = true

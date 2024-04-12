@@ -329,7 +329,7 @@ model orders {
   createdAt  DateTime     @default(dbgenerated("(now() AT TIME ZONE 'utc'::text)")) @db.Timestamptz(6)
   updatedAt  DateTime     @default(dbgenerated("(now() AT TIME ZONE 'utc'::text)")) @db.Timestamptz(6)
   user_id    String?      @db.Uuid
-  total      Int?
+  total      Int          @default(0)
   orderItems orderItems[]
   users      users?       @relation(fields: [user_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "public_orders_user_id_fkey")
 
@@ -349,6 +349,8 @@ model products {
   category    String
   colors      String[]
   fit         String
+  new_release Boolean      @default(false)
+  best_seller Boolean      @default(false)
   orderItems  orderItems[]
   stock       stock[]
 
