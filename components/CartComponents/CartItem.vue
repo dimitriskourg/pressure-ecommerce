@@ -80,7 +80,7 @@ function decreaseQuantity(productUUID, quantity) {
         min="1"
         :value="product.selectedQuantity"
         class="h-8 w-12 rounded border-gray-200 bg-gray-50 p-0 text-center text-xs text-gray-600 [-moz-appearance:_textfield] focus:outline-none [&::-webkit-inner-spin-button]:m-0 [&::-webkit-inner-spin-button]:appearance-none [&::-webkit-outer-spin-button]:m-0 [&::-webkit-outer-spin-button]:appearance-none"
-        @change="$emit('changeQuantity', product.uuid, $event.target.value)"
+        @change="$emit('changeQuantity', product.uuid, parseInt($event.target.value))"
       >
 
       <button class="text-gray-600 transition hover:text-red-600 rounded p-1 hover:bg-gray-200" @click="$emit('removeItem', product.uuid)">
