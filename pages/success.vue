@@ -33,7 +33,7 @@ const date = useState('date', () => new Date().toISOString())
           Purchase Successful
         </h1>
         <p class="text-gray-500 dark:text-gray-400">
-          Thank you for your purchase! Your order is confirmed.
+          Thank you for your purchase! Your order is currently being processed. You will receive an email confirmation shortly.
         </p>
       </div>
       <Card class="w-full max-w-sm p-0">
