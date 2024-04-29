@@ -6,6 +6,7 @@ const email = ref('')
 const emailError = ref(false)
 const successLinkCreated = ref(false)
 const emailErrorText = ref('')
+const loading = ref(false)
 
 async function signInWithGoogle() {
   const { error } = await supabase.auth.signInWithOAuth({
@@ -19,11 +20,13 @@ async function signInWithGoogle() {
 }
 
 async function signInWithMagicLink() {
+  loading.value = true
   const { error } = await supabase.auth.signInWithOtp({
     email: email.value,
   }, {
     redirectTo: 'https://www.dimitriskourg.gr/auth/confirm',
   })
+  loading.value = false
   if (error) {
     emailError.value = true
     emailErrorText.value = error.message
@@ -95,7 +98,8 @@ async function checkEmailAndSignIn() {
 
       <div class="mt-6">
         <button class="w-full px-6 py-3 text-sm font-medium tracking-wide text-white uppercase transition-colors duration-300 transform bg-gray-800 rounded-sm hover:bg-gray-700 focus:outline-none focus:ring focus:ring-gray-300 focus:ring-opacity-50" @click="checkEmailAndSignIn">
-          Sign In
+          <Icon v-if="loading" name="eos-icons:loading" size="25" class="" />
+          <span v-else>Sign in</span>
         </button>
       </div>
 
