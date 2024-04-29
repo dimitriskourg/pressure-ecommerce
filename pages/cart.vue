@@ -13,7 +13,7 @@ const discountComputed = computed(() => {
   const discount = userStore.cart.reduce((acc, product) => {
     return acc + (product.discount > 0 ? product.price / 100 * product.selectedQuantity * product.discount / 100 : 0)
   }, 0)
-  return discount.toFixed(2) ?? '0'
+  return discount.toFixed(2)
 })
 
 const numberOfDiscountedProducts = computed(() => {
@@ -101,7 +101,7 @@ async function goToCheckout() {
             <CartComponentsCartItem v-for="product in userStore.cart" :key="product.uuid" :product="product" @change-quantity="onChangeQuantity" @remove-item="onRemoveItem" />
           </ul>
 
-          <CartComponentsCartDetails :sub-total="subTotalComputed" :vat="vatComputed" :discount="discountComputed" :total="totalComputed" :discount-applied="numberOfDiscountedProducts" />
+          <CartComponentsCartDetails :sub-total="subTotalComputed" :vat="vatComputed" :discount="discountComputed.toString()" :total="totalComputed" :discount-applied="numberOfDiscountedProducts.toString()" />
 
           <div class="flex justify-end my-4" @click="goToCheckout">
             <button class="block rounded bg-gray-700 px-5 py-3 text-sm text-gray-100 transition hover:bg-gray-600">
