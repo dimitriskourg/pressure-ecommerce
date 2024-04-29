@@ -78,7 +78,7 @@ watch(currentPage, (newVal) => {
           </div>
         </div>
         <div v-if="!productsPending" class="md:w-[70%] mt-5">
-          <ProductsPageComponentsProducts :products="prods.products" :loading="pending" />
+          <ProductsPageComponentsProducts :products="prods.products" :loading="productsPending" />
           <ProductsPageComponentsPagination v-model:current-page="currentPage" class="my-10 mx-auto" :total-pages="prods.totalProducts" />
         </div>
         <div v-else>
