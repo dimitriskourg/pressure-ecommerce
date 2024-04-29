@@ -3,6 +3,8 @@ const { data: prods, error, pending } = await useFetch('/api/public/products', {
   query: {
     toIndex: 6,
   },
+  server: false,
+  lazy: true,
 })
 if (error.value)
   console.error(error.value)

@@ -20,6 +20,10 @@ const props = defineProps({
     type: String,
     required: true,
   },
+  filters: {
+    type: Object,
+    required: true,
+  },
 })
 const emits = defineEmits(['update:sortBy', 'update:categoriesSelected', 'update:sizesSelected', 'update:colorsSelected', 'update:priceRangeSelected'])
 
@@ -81,10 +85,6 @@ const categoriesSelectedValue = ref(props.categoriesSelected)
 const sizesSelectedValue = ref(props.sizesSelected)
 const colorsSelectedValue = ref(props.colorsSelected)
 const priceRangeSelectedValue = ref(props.priceRangeSelected)
-
-const { data: filters, error } = await useFetch('/api/public/filters')
-if (error.value)
-  console.error(error.value)
 
 watch(sortByValue, (newVal) => {
   emits('update:sortBy', newVal)
@@ -157,7 +157,7 @@ function onRemoveFilters() {
 
       <div id="CategoriesFilter">
         <ProductsPageComponentsFilterDetails title="Categories" :filter-applied="categoriesSelectedValue.length > 0" border-class="border-b-2">
-          <div class="flex flex-col gap-3">
+          <div v-if="!pending" class="flex flex-col gap-3">
             <div v-for="(category, index) in filters.categories" :key="index" class="flex gap-2 items-center checked:bg-black">
               <input :id="category.category" v-model="categoriesSelectedValue" type="checkbox" class="hidden peer" :value="category.category">
               <label :for="category.category" class="w-full py-3 text-center border-2 border-gray-500 text-gray-500 peer-checked:bg-black peer-checked:text-white peer-checked:border-black">
