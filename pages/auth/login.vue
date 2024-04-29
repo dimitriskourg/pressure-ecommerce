@@ -9,8 +9,8 @@ definePageMeta({
 </script>
 
 <template class="">
-  <MainLayout class="">
-    <div id="Auth" class="flex flex-col gap-2">
+  <MainLayout>
+    <div id="Auth" class="flex flex-col gap-2 min-h-[60vh] justify-center items-center">
       <AuthLogIn />
     </div>
   </MainLayout>
