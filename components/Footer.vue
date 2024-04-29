@@ -28,8 +28,8 @@ defineEmits(['openSearchBar'])
               All Products
             </NuxtLink>
             <li>
-              <NuxtLink to="/best-sellers" class="text-gray-600 hover:text-gray-800">
-                Best Selles
+              <NuxtLink to="/products?best-sellers=true" class="text-gray-600 hover:text-gray-800">
+                Best Sellers
               </NuxtLink>
             </li>
           </nav>
