@@ -51,7 +51,7 @@ async function checkEmailAndSignIn() {
 </script>
 
 <template>
-  <div class="flex w-full max-w-lg mx-4 overflow-hidden my-12 lg:my-20 bg-white rounded-lg shadow-lg  lg:max-w-7xl">
+  <div class="flex w-full max-w-3xl overflow-hidden my-12 lg:my-20 bg-white rounded-lg shadow-lg  lg:max-w-7xl">
     <div class="hidden bg-cover lg:block lg:w-1/2" style="background-image: url('/cbum-crop.jpg');" />
 
     <div class="w-full px-6 py-8 lg:py-40 md:px-8 lg:w-1/2">
