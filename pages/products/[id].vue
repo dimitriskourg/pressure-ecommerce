@@ -14,6 +14,7 @@ import 'swiper/css/zoom'
 const { id } = useRoute().params
 const userStore = useUserStore()
 const modules = [Navigation, Scrollbar, Zoom]
+const zoomedImage = ref(null)
 
 const { data: product, error, pending } = await useFetch('/api/public/product', {
   query: {
@@ -96,9 +97,28 @@ function handleAddedToWishList() {
   }, 2000)
 }
 
+function zoomImage() {
+  document.removeEventListener('click', handleClickOutside)
+  handleIsImageExpanded()
+  setTimeout(() => {
+    document.addEventListener('click', handleClickOutside)
+  }, 100)
+}
+
+function closeFullImage() {
+  handleIsImageExpanded()
+}
+
 function handleSizeSelection(size) {
-  console.log('size selected:', size)
   selectedSize.value = size
+}
+
+onUnmounted(() => {
+  document.removeEventListener('click', handleClickOutside)
+})
+function handleClickOutside(event) {
+  if (zoomedImage.value && isImageExpanded.value && !zoomedImage.value.contains(event.target))
+    isImageExpanded.value = false
 }
 </script>
 
@@ -125,7 +145,7 @@ function handleSizeSelection(size) {
                 <!-- Image element with expand icon overlay -->
                 <img :src="image" class="max-w-90 max-h-90 object-contain" :class="{ 'w-full h-full': isImageExpanded }">
                 <div v-if="!isImageExpanded" class="absolute bottom-4 right-4  text-black rounded p-2">
-                  <button class="text-white" @click="handleIsImageExpanded">
+                  <button class="text-white" @click="zoomImage">
                     <Icon name="ion:expand" class="w-5 h-5" />
                   </button>
                 </div>
@@ -190,14 +210,14 @@ function handleSizeSelection(size) {
         class="fixed top-0 left-0 w-full h-full bg-black bg-opacity-50 flex items-center justify-center z-50"
       >
         <div class="relative">
-          <button class="absolute top-4 right-4 text-white" @click="handleIsImageExpanded">
+          <button class="absolute top-4 right-4 text-white" @click="closeFullImage">
             <Icon name="ion:close" class="w-8 h-8" />
           </button>
           <img
+            ref="zoomedImage"
             :src="product.images[currentImageIndex]"
             class="max-w-[90vw] max-h-[90vh] object-contain"
             :class="{ 'w-full h-full': isImageExpanded }"
-            @dblclick="handleImageDoubleClick"
           >
         </div>
       </div>
