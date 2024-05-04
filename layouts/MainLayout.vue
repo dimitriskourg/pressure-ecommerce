@@ -49,7 +49,10 @@ async function onLogOut() {
 <template>
   <div id="MainLayout" class="w-full z-40">
     <div id="header" class="fixed top-0 z-40 w-full">
-      <div class="announcementBar w-full bg-black p-4" />
+      <div v-if="!isEshopAdmin" class="announcementBar w-full bg-black p-4" />
+      <div v-else class="announcementBar w-full bg-red-600 text-xs p-2 text-white">
+        ADMIN PAGE
+      </div>
       <div class="w-full flex flex-wrap items-center justify-between mx-auto p-2 bg-white border border-b-stone-950/20">
         <div class="hidden md:flex items-center justify-around ml-3">
           <NuxtLink to="/products" class="w-full text-lg mx-2">
@@ -84,7 +87,10 @@ async function onLogOut() {
 
         <!-- Desktop Header buttons -->
         <div class="hidden md:flex items-center ">
-          <NuxtLink to="/auth/login" class="p-2 hover:bg-gray-200 rounded-lg">
+          <NuxtLink v-if="!isEshopAdmin" to="/auth/login" class="p-2 hover:bg-gray-200 rounded-lg">
+            <Icon name="ph:user-bold" size="30" class="" />
+          </NuxtLink>
+          <NuxtLink v-else to="/auth/admin" class="p-2 hover:bg-gray-200 rounded-lg">
             <Icon name="ph:user-bold" size="30" class="" />
           </NuxtLink>
           <button class="p-2 hover:bg-gray-200 rounded-lg">
