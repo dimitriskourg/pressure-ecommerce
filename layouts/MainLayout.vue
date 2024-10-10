@@ -50,8 +50,8 @@ async function onLogOut() {
   <div id="MainLayout" class="w-full z-40">
     <div id="header" class="fixed top-0 z-40 w-full">
       <div v-if="!isEshopAdmin" class="announcementBar w-full bg-black p-4" />
-      <div v-else class="announcementBar w-full bg-red-600 text-xs p-2 text-white">
-        ADMIN PAGE
+      <div v-else class="adminAnnouncementBar w-full bg-red-600 text-xs p-2 text-white">
+        admin
       </div>
       <div class="w-full flex flex-wrap items-center justify-between mx-auto p-2 bg-white border border-b-stone-950/20">
         <div class="hidden md:flex items-center justify-around ml-3">
@@ -179,5 +179,9 @@ async function onLogOut() {
 </template>
 
 <style scoped>
-
+.adminAnnouncementBar {
+  background-color: #f00;
+  background-image: linear-gradient(45deg, rgba(255,255,255,0.15) 25%, transparent 25%, transparent 50%, rgba(255,255,255,0.15) 50%, rgba(255,255,255,0.15) 75%, transparent 75%, transparent);
+  background-size: 40px 40px;
+}
 </style>

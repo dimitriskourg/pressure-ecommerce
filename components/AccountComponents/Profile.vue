@@ -69,12 +69,15 @@ async function onSaveChanges() {
             </div>
           </div>
         </CardContent>
-        <CardFooter class-name="flex items-center gap-2">
+        <CardFooter class-name="flex justify-around gap-2">
           <DialogTrigger as-child>
             <Button variant="outline" class="bg-black text-white hover:bg-white hover:text-black">
               Edit Profile
             </Button>
           </DialogTrigger>
+          <Button variant="outline" class="bg-black text-white hover:bg-white hover:text-black">
+            Edit Profile
+          </Button>
         </CardFooter>
       </Card>
       <DialogContent class="sm:max-w-[1000px]">
